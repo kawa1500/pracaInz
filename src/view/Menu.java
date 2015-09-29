@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import view.handlers.ClickExit;
 import view.handlers.OpenPodgladDanych;
+import view.handlers.OpenPomiar;
 import dataBase.DataBase;
 
 public class Menu {
@@ -67,6 +68,7 @@ public class Menu {
 	public void addHandler(){
 		wyjscie.addActionListener(new ClickExit());
 		podgladWartosci.addActionListener(new OpenPodgladDanych(this));
+		nowyPomiar.addActionListener(new OpenPomiar(this));
 	}
 	public void setVisibleError(boolean isVisible){
 		panelNotification.setVisible(isVisible);
