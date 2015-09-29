@@ -13,52 +13,21 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
+import view.Menu;
+import view.PanelLogowania;
 
 public class USART implements Runnable, SerialPortEventListener {
 	static CommPortIdentifier portId;
-    static Enumeration	      portList;
+    PanelLogowania 				view;
     InputStream		      inputStream;
     OutputStream		outputStream;
     SerialPort		      serialPort;
     Thread		      readThread;
 
    
-    public static void main(String[] args) {
-    boolean		      portFound = false;
-    String		      defaultPort = "COM1";
-
- 	if (args.length > 0) {
-	    defaultPort = args[0];
-	} 
-   
-	portList = CommPortIdentifier.getPortIdentifiers();
-
-	while (portList.hasMoreElements()) {
-	    portId = (CommPortIdentifier) portList.nextElement();
-	    if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-		if (portId.getName().equals(defaultPort)) {
-		    System.out.println("Found port: "+defaultPort);
-		    portFound = true;
-		    USART reader = new USART();
-		    
-		    try {
-		    	reader.outputStream.write('n');
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			};
-		} 
-	    } 
-	} 
-	if (!portFound) {
-	    System.out.println("port " + defaultPort + " not found.");
-	} 
- 	
-    } 
-
-   
-    public USART() {
+    public USART(CommPortIdentifier portId, PanelLogowania menu) {
+    	this.portId = portId;
+    	this.view=menu;
 	try {
 	    serialPort = (SerialPort) portId.open("Com1", 20);
 	} catch (PortInUseException e) {}
@@ -121,14 +90,13 @@ public class USART implements Runnable, SerialPortEventListener {
 		{
 		    int numBytes = inputStream.read(readBuffer);
 		} 
-
-		System.out.println(new String(readBuffer));
 	    } catch (IOException e) {}
-
+	    String odczyt= new String(readBuffer);
+	    System.out.println(odczyt);
+	    analizaOdczytu(odczyt);
 	    break;
 	}
     }
-
 
 	@Override
 	public void run() {
@@ -137,5 +105,11 @@ public class USART implements Runnable, SerialPortEventListener {
 		} catch (InterruptedException e) {}
 		
 	} 
+	
+	public void analizaOdczytu(String odczyt)
+	{
+		
+		
+	}
 
 }
