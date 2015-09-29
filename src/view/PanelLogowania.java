@@ -21,8 +21,8 @@ public class PanelLogowania {
 	JButton			przyciskOK			= new JButton("Zapisz");
 	JPanel			notification		= new JPanel();
 	JLabel			error				= new JLabel("Nazwa musi byc d³u¿sza ni¿ 5znaków");
-	Main			parent;
-	
+	public Main			parent;
+	public Menu menu = null;
 	public PanelLogowania(Main parent) {
 		this.parent = parent;
 		init();

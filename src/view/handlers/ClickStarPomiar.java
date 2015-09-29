@@ -3,22 +3,21 @@ package view.handlers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import view.Menu;
-import view.PodgladDanych;
+import javax.swing.JFrame;
+
 import view.PomiarWidok;
 
-public class OpenPomiar implements ActionListener{
+public class ClickStarPomiar implements ActionListener {
 
+	PomiarWidok parent;
 	
-	Menu 			parent;
-	
-	public OpenPomiar(Menu parent) {
+	public ClickStarPomiar(PomiarWidok parent) {
 		this.parent = parent;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		parent.pomiarWidok = new PomiarWidok(parent);
+		parent.parent.parent.parent.reader.startPomiaru();
 	}
 
 }

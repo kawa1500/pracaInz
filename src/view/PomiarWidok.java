@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import view.handlers.ClickStarPomiar;
+
 public class PomiarWidok {
 
 	JFrame			frame		= new JFrame("System pomiarowy | Pomiar");
@@ -47,8 +49,14 @@ public class PomiarWidok {
 	JCheckBox		statusUkladu		= new JCheckBox("Status uk³adu");
 	JCheckBox		statusPomiaru		= new JCheckBox("Status pomiaru");
 	
-	public PomiarWidok() {
+	
+	//
+	public Menu parent;
+	
+	public PomiarWidok(Menu parent) {
+		this.parent = parent;
 		init();
+		setHandler();
 	}
 
 	public void initInfoPanel(){
@@ -117,5 +125,21 @@ public class PomiarWidok {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setSize(400, 300);
 		frame.setVisible(true);
+	}
+	
+	public void setHandler(){
+		startButton.addActionListener(new ClickStarPomiar(this));
+	}
+	
+	public void setNapiecie(String napiecie){
+		wartoscNapiecie.setText(napiecie);
+	}
+	
+	public void setPrad(String prad){
+		wartoscPrad.setText(prad);
+	}
+	
+	public void setCzas(String czas){
+		wartoscCzas.setText(czas);
 	}
 }

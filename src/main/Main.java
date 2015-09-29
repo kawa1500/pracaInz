@@ -15,7 +15,7 @@ public class Main {
 	static CommPortIdentifier portId;
 	static boolean		      portFound = false;
     static String		      defaultPort = "COM1";
-	
+    public static USART reader=null;
 	public Main(){
 		
 	}
@@ -39,7 +39,7 @@ public class Main {
 		    	if (portId.getName().equals(defaultPort)) {
 		    		System.out.println("Found port: "+defaultPort);
 		    		portFound = true;
-		    		USART reader = new USART(portId,pl);
+		    		reader = new USART(portId,pl);
 		    	} 
 		    } 
 		} 

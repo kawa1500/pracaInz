@@ -8,7 +8,7 @@ import view.PodgladDanych;
 
 public class OpenPodgladDanych implements ActionListener{
 
-	PodgladDanych 	podglad;
+	
 	Menu 			parent;
 	
 	public OpenPodgladDanych(Menu parent) {
@@ -17,7 +17,7 @@ public class OpenPodgladDanych implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		podglad = new PodgladDanych(parent);
+		parent.podglad = new PodgladDanych(parent);
 	}
 
 }

@@ -13,6 +13,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
+import sun.usagetracker.UsageTrackerClient;
 import view.Menu;
 import view.PanelLogowania;
 
@@ -23,6 +24,7 @@ public class USART implements Runnable, SerialPortEventListener {
     OutputStream		outputStream;
     SerialPort		      serialPort;
     Thread		      readThread;
+	private double RESISTOR = 2.2;
 
    
     public USART(CommPortIdentifier portId, PanelLogowania menu) {
@@ -84,14 +86,15 @@ public class USART implements Runnable, SerialPortEventListener {
 
 	case SerialPortEvent.DATA_AVAILABLE:
 	    byte[] readBuffer = new byte[10];
-
+	    int numBytes=0;
 	    try {
 		while (inputStream.available() > 0) 
 		{
-		    int numBytes = inputStream.read(readBuffer);
+		    numBytes = inputStream.read(readBuffer);
 		} 
 	    } catch (IOException e) {}
 	    String odczyt= new String(readBuffer);
+	    odczyt=odczyt.substring(0, numBytes);
 	    System.out.println(odczyt);
 	    analizaOdczytu(odczyt);
 	    break;
@@ -108,8 +111,61 @@ public class USART implements Runnable, SerialPortEventListener {
 	
 	public void analizaOdczytu(String odczyt)
 	{
+		if(odczyt.contains("V-")){
+			String value = odczyt.substring(2);
+			Integer adc = Integer.parseInt(value);
+			double wartosc = (double)(((double)adc/4096)*3.3*(11.5/1.5));
+			napiecie(wartosc);
+		}
+		else if(odczyt.contains("A-")){
+			String value = odczyt.substring(2);
+			Integer adc = Integer.parseInt(value);
+			double wartosc = (double)((((double)adc/4096)*3.3*(11.5/1.5))/RESISTOR);
+			prad(wartosc);
+		}
+		else if(odczyt.contains("C-")){
+			String value = odczyt.substring(2);
+			Integer adc = Integer.parseInt(value);
+			double wartosc = (double)((double)adc/10);
+			czas(wartosc);
+		}
 		
 		
 	}
+	
+	public void napiecie(double wartosc){
+		if(view.menu.podglad!=null){
+			view.menu.podglad.setNapiecie(String.format("%.2f",wartosc)+" V");
+		}
+		
+		if(view.menu.pomiarWidok!=null){
+			view.menu.pomiarWidok.setNapiecie(String.format("%.2f",wartosc)+" V");
+		}
+	}
+	
+	public void prad(double wartosc){
+		if(view.menu.podglad!=null){
+			view.menu.podglad.setPrad(String.format("%.2f",wartosc)+" A");
+		}
+		
+		if(view.menu.pomiarWidok!=null){
+			view.menu.pomiarWidok.setPrad(String.format("%.2f",wartosc)+" A");
+		}
+	}
 
+	public void czas(double wartosc){		
+		if(view.menu.pomiarWidok!=null){
+			view.menu.pomiarWidok.setCzas(wartosc+" ms");
+		}
+	}
+	
+	public void startPomiaru()
+	{
+		try {
+			this.outputStream.write('n');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

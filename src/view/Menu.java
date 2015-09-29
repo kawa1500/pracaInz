@@ -27,8 +27,9 @@ public class Menu {
 	JButton			analizaDanych		= new JButton("Analiza danych");
 	JButton			ustawienia			= new JButton("Ustawienia");
 	JButton			wyjscie				= new JButton("Wyjœcie");
-	
-	PanelLogowania	parent;
+	public PodgladDanych 	podglad;
+	public PomiarWidok		pomiarWidok;
+	public PanelLogowania	parent;
 	public DataBase dataBase;
 	
 	public Menu(PanelLogowania parent, String nazwaGrupy) {

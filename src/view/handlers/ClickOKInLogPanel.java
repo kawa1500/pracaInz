@@ -21,7 +21,7 @@ public class ClickOKInLogPanel implements ActionListener {
 			panelLogowania.setVisibleError(false);
 			nazwaGrupy = panelLogowania.getTextInTextArea();
 			panelLogowania.zamknij();
-			Menu menu = new Menu(panelLogowania,nazwaGrupy);
+			panelLogowania.menu = new Menu(panelLogowania,nazwaGrupy);
 		}
 		else
 		{
